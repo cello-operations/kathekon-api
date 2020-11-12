@@ -5,11 +5,8 @@ import { errorTypeMap } from './reorganizeErrors';
 
 const debug = Debug('development');
 
-const inProduction = process.env.NODE_ENV === 'production';
-
 class ServerResponse {
-  constructor(customLogger) {
-    this.logger = customLogger;
+  constructor() {
     this.debugger = debug;
   }
 
@@ -56,7 +53,7 @@ class ServerResponse {
 
   safeServerError(err, req, res, next) {
     const { ...otherBodyData } = req.body;
-    this.logger.log({
+    logger.log({
       level: 'error',
       method: req.method,
       url: req.url,
@@ -83,7 +80,15 @@ class ServerResponse {
   }
 
   serverErrorWithStackTrace(err, req, res, next) {
-    debug(err.stack);
+    logger.log({
+      level: 'error',
+      method: req.method,
+      url: req.url,
+      clientInfo: req.headers['user-agent'],
+      status: res.statusCode,
+      statusMessage: res.message,
+      error: err.stack,
+    });
     return res.status(err.status || 500).json({
       status: 'error',
       error: {
@@ -100,6 +105,6 @@ class ServerResponse {
   }
 }
 
-const ServerUtility = new ServerResponse(inProduction ? logger : debug);
+const ServerUtility = new ServerResponse();
 
 export default ServerUtility;

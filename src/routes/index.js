@@ -2,6 +2,8 @@ import { Router } from 'express';
 import ServerUtility from '../helpers/ServerResponse';
 import authRouter from './authRoutes';
 import systemRouter from './systemRoutes';
+import grantsRouter from './grantsRoutes';
+import blogsRouter from './blogRoutes';
 
 const router = Router();
 
@@ -14,5 +16,7 @@ router.get('/', (req, res) => {
 
 router.use('/auth', authRouter);
 router.use('/system', systemRouter);
+router.use('/grants', grantsRouter);
+router.use('/blogs', blogsRouter);
 
 export default router;

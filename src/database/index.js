@@ -14,7 +14,7 @@ mongoose.connection.on('error', (err) => {
     level: 'error',
     error: err,
   });
-  debug(`Mongoose connection error occured: ${err}`);
+  debug(`Mongoose connection error occurred: ${err}`);
 });
 
 mongoose.connection.on('disconnected', () => {
@@ -39,7 +39,7 @@ async function connectToDB() {
 
     return debug('Database connection established');
   } catch (error) {
-    debug(error);
+    console.log(error);
     throw new Error(error);
   }
 }

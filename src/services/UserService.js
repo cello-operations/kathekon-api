@@ -42,7 +42,7 @@ class UserService {
   generateToken({
     _id, id, email, isVerified,
     firstTimePasswordChanged, firstName, lastName,
-    avatar, createdOn, updatedOn,
+    avatar, createdOn, updatedOn, userType,
   }) {
     const { JWT_SECRET } = process.env;
     const payload = {
@@ -56,6 +56,7 @@ class UserService {
       avatar,
       createdOn,
       updatedOn,
+      userType,
     };
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
 

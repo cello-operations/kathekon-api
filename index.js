@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import path from 'path';
 import passport from 'passport';
 import ResponseTime from 'response-time';
+import cors from 'cors';
 
 import v1Router from './src/routes';
 import logger from './src/helpers/logger';
@@ -27,6 +28,7 @@ const inProduction = process.env.NODE_ENV === 'production';
 // security configuration
 app.use(helmet());
 app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
+app.use(cors());
 app.use(ResponseTime());
 app.use(httpLogger);
 app.use(express.json({ limit: '15mb' }));
@@ -36,13 +38,6 @@ app.set('view engine', 'ejs');
 app.use(passport.initialize());
 app.use(API_V1_PREFIX, v1Router);
 passportConfig(passport);
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-Width, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  next();
-});
 
 app.use(ServerUtility.error404);
 
