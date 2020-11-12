@@ -47,7 +47,7 @@ class AuthController {
         lastName,
         phoneNumber,
         email,
-        userType: 'requester',
+        userType: 'REQUESTER',
         firstTimePasswordChanged: true,
         avatar,
       });
@@ -110,7 +110,7 @@ class AuthController {
         return ServerUtility.errorResponse(
           res,
           400,
-          { message: 'A user with the email and password combination was not found' },
+          { email: 'A user with the email and password combination was not found' },
           'User not found',
           {},
           { responseTime: `${new Date() - start}ms`, errorType: '000', errorDescription: errorTypeMap['000'] },
@@ -124,7 +124,7 @@ class AuthController {
         200,
         { token },
         // eslint-disable-next-line max-len
-        `User logged in successfully.${existingUser.userType !== 'requester' && !existingUser.firstTimePasswordChanged ? ' We noticed you have not changed your password. Please do so to secure your account.' : ''}`,
+        `User logged in successfully.${existingUser.userType !== 'REQUESTER' && !existingUser.firstTimePasswordChanged ? ' We noticed you have not changed your password. Please do so to secure your account.' : ''}`,
         { responseTime: `${new Date() - start}ms` },
       );
     } catch (error) {

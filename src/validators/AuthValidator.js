@@ -10,6 +10,7 @@ class AuthValidator {
    * @description - implements registration request body validator
    * @param {object} req - request object
    * @param {object} res - response object
+   * @param {function} next - next function call
    * @return {object|function} - returns a response object if validation fails or a function if it passess
    */
   static validateRegistration(req, res, next) {
@@ -39,6 +40,7 @@ class AuthValidator {
    * @description - implements login request body validator
    * @param {object} req - request object
    * @param {object} res - response object
+   * @param {function} next - next function call
    * @return {object|function} - returns a response object if validation fails or a function if it passess
    */
   static validateLogin(req, res, next) {
@@ -65,6 +67,7 @@ class AuthValidator {
    * @description - implements change password request body validator
    * @param {object} req - request object
    * @param {object} res - response object
+   * @param {function} next - next function call
    * @return {object|function} - returns a response object if validation fails or a function if it passess
    */
   static validatePasswordChangeAuthorized(req, res, next) {

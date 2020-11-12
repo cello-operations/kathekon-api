@@ -31,7 +31,7 @@ const userSchema = new Schema({
   },
   userType: {
     type: String,
-    enun: ['requester', 'superAdmin', 'admin'],
+    enum: ['REQUESTER', 'SUPER_ADMIN', 'ADMIN'],
   },
   isVerified: {
     type: Boolean,
@@ -51,7 +51,11 @@ const userSchema = new Schema({
   firstTimePasswordChanged: {
     type: Boolean,
     default: false,
-  }
+  },
+  mailSubscription: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 userSchema.index({ firstName: 'text', lastName: 'text' });
