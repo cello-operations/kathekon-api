@@ -27,6 +27,10 @@ const grantApplicationsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users',
   },
+  applicationDocument: {
+    type: String,
+    required: true,
+  },
 });
 
 const GrantApplications = model('grantApplications', grantApplicationsSchema);

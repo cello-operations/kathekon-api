@@ -103,7 +103,35 @@ class GrantValidator {
         res,
         409,
         { message: 'You have already applied for this grant' },
-        'Grant application already exists',
+        'You have already applied for this grant',
+        {},
+        { responseTime: `${new Date() - start}ms`, errorType: '001', errorDescription: errorTypeMap['001'] }
+      );
+    }
+    return next();
+  }
+
+  static async checkIfResponseIsDuplicate(req, res, next) {
+    const start = new Date();
+    const { grantApplicationId } = req.params;
+    const findGrantApplication = await GrantApplications.findOne({ _id: grantApplicationId });
+    if (!findGrantApplication) {
+      return ServerUtility.errorResponse(
+        res,
+        404,
+        { message: 'Grant does not exist' },
+        'This grant does not exist or may have been moved',
+        {},
+        { responseTime: `${new Date() - start}ms`, errorType: '001', errorDescription: errorTypeMap['001'] }
+      );
+    }
+
+    if (findGrantApplication && findGrantApplication.status !== 'PROCESSING') {
+      return ServerUtility.errorResponse(
+        res,
+        409,
+        { message: 'This grant has already been treated' },
+        'This grant has already been treated and cannot be updated again',
         {},
         { responseTime: `${new Date() - start}ms`, errorType: '001', errorDescription: errorTypeMap['001'] }
       );
