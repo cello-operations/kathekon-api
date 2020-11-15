@@ -20,6 +20,12 @@ grantsRouter.get(
 );
 
 grantsRouter.get(
+  '/applications',
+  Permissions.authenticateJWTFromRequest,
+  GrantApplicationsController.getAllGrantApplications,
+);
+
+grantsRouter.get(
   '/:grantId',
   GrantValidator.validateGrantExists,
   GrantsController.getGrantById,
@@ -52,10 +58,12 @@ grantsRouter.post(
   GrantApplicationsController.requestGrant,
 );
 
-grantsRouter.get(
-  'applications',
+grantsRouter.patch(
+  '/applications/:grantApplicationId',
   Permissions.authenticateJWTFromRequest,
-  GrantApplicationsController.getAllGrantApplications,
+  Permissions.allowOnly(['ADMIN', 'SUPER_ADMIN']),
+  GrantValidator.checkIfResponseIsDuplicate,
+  GrantApplicationsController.treatGrantApplication,
 );
 
 export default grantsRouter;

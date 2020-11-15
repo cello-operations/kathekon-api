@@ -17,11 +17,13 @@ class GrantApplicationsController {
   static async requestGrant(req, res, next) {
     try {
       const { grantId, findGrant } = req;
+      const { applicationDocument } = req.body;
       const start = new Date();
       const newGrantApplication = new GrantApplications({
         grantId,
         requestedBy: req.user._id,
         status: 'PROCESSING',
+        applicationDocument,
       });
 
       const grantApplication = await newGrantApplication.save();
@@ -74,7 +76,8 @@ class GrantApplicationsController {
 
       const grantApplications = await GrantApplications.find({
         ...queryOpts,
-      }).populate('requestedBy', ['_id', 'firstName', 'lastName', 'userType'])
+      }).populate('requestedBy')
+        .populate('grantId')
         .limit(parseInt(itemsPerPage, 10))
         .skip(parseInt(itemsPerPage, 10) * parseInt(numberOfPages, 10))
         .sort({
@@ -114,7 +117,7 @@ class GrantApplicationsController {
     try {
       const start = new Date();
       const { status } = req.body;
-      const { grantApplicationId } = req;
+      const { grantApplicationId } = req.params;
 
       const grantApplicationFields = {
         status,
@@ -130,7 +133,7 @@ class GrantApplicationsController {
         res,
         200,
         { grantApplication: treated },
-        `Grant ${status.lowerCase()} successfully`,
+        `Grant ${status.toLowerCase()} successfully`,
         {
           responseTime: `${new Date() - start}ms`,
         }
