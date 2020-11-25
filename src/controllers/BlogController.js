@@ -29,7 +29,8 @@ class BlogController {
         coverImage,
       } = req.body;
 
-      const slug = BlogPostHelper.generateSlug(title);
+      const safeTitle = title.replace(/[^\w\s]/gi, '')
+      const slug = BlogPostHelper.generateSlug(safeTitle);
       const readTime = BlogPostHelper.getReadTime(body);
 
       const newPost = new BlogPost({
