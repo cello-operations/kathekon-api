@@ -60,6 +60,14 @@ const grantsSchema = new Schema({
   image: {
     type: String,
     required: true,
+  },
+  requirements: {
+    type: Array,
+    default: [],
+  },
+  thematicAreas: {
+    type: Array,
+    default: [],
   }
 });
 

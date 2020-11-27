@@ -27,6 +27,8 @@ class GrantValidator {
       applicationStartDate: Joi.string(),
       grantType: Joi.string().required(),
       upload: Joi.string().required(),
+      thematicAreas: Joi.array(),
+      requirements: Joi.array(),
     });
 
     const { error } = schema.validate(req.body, { abortEarly: false });
