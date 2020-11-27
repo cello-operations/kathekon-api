@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "DEBUG=development && nodemon --exec babel-node index.js",
     "build": "npm run clean && npm run build-babel",
-    "build-babel": "babel -d ./build index.js && babel ./src --out-dir build/src",
+    "build-babel": "babel -d ./build index.js && babel ./src --out-dir build/src && cp -r ./src/views ./build/src",
     "clean": "rm -rf build && mkdir build",
     "prestart": "npm run build",
     "start": "node ./build/index.js"
