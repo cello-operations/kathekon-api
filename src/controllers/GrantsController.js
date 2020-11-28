@@ -20,7 +20,7 @@ class GrantsController {
       const start = new Date();
       const {
         grantName, description, status, expiryDate, applicationStartDate,
-        grantType, upload
+        grantType, upload, requirements, thematicAreas,
       } = req.body;
 
       const existingApplication = await Grants.findOne({
@@ -56,6 +56,8 @@ class GrantsController {
         createdBy: req.user._id,
         upload,
         image: grantTypeImageMap[grantType],
+        requirements: requirements || [],
+        thematicAreas: thematicAreas || [],
       });
 
       const grant = await newGrant.save();

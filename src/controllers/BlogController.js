@@ -31,7 +31,14 @@ class BlogController {
 
       const safeTitle = title.replace(/[^\w\s]/gi, '')
       const slug = BlogPostHelper.generateSlug(safeTitle);
-      const readTime = BlogPostHelper.getReadTime(body);
+      const allParagraphs = JSON.parse(body);
+      const reduced = allParagraphs.blocks.reduce((accumulator, item) => {
+        if (item.type === 'paragraph') {
+          accumulator.paraprhaps += ` ${item.data.text}`;
+        }
+        return accumulator;
+      }, { paraprhaps: '' });
+      const readTime = BlogPostHelper.getReadTime(reduced.paraprhaps);
 
       const newPost = new BlogPost({
         body,
